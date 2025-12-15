@@ -84,23 +84,36 @@ namespace discos_mvc.Controllers
         }
 
         // GET: DiscosController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+        //public ActionResult Delete(int id)
+        //{
+        //    try
+        //    {
+        //        DiscoNegocio discoNegocio = new DiscoNegocio();
+        //        var disco = discoNegocio.listar().FirstOrDefault(d => d.Id == id);
+        //        if (disco == null)
+        //            return NotFound();
+        //        return View(disco);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //}
 
         // POST: DiscosController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id)
         {
             try
             {
+                DiscoNegocio discoNegocio = new DiscoNegocio();
+                discoNegocio.eliminar(id);
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return RedirectToAction(nameof(Index));
             }
         }
     }

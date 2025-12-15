@@ -60,9 +60,52 @@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary btn-sm">Editar</a>
                 <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Detalles</a>
-                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Eliminar</a>
+                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="@item.Id">Eliminar</button>
             </td>
         </tr>
 }
     </tbody>
 </table>
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmar eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                ¿Estás seguro que deseas eliminar este disco?
+            </div>
+
+            <div class="modal-footer">
+                <form asp-action="Delete" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" id="deleteId" />
+
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+
+                    <button type="submit" class="btn btn-danger">
+                        Eliminar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const deleteModal = document.getElementById('deleteModal');
+
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const id = button.getAttribute('data-id');
+
+        const input = deleteModal.querySelector('#deleteId');
+        input.value = id;
+    });
+</script>
+
+
