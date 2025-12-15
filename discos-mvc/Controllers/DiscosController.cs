@@ -24,7 +24,9 @@ namespace discos_mvc.Controllers
         // GET: DiscosController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            DiscoNegocio discoNegocio = new DiscoNegocio();
+            var disco = discoNegocio.listar().Find(d => d.Id == id);
+            return View(disco);
         }
 
         // GET: DiscosController/Create
