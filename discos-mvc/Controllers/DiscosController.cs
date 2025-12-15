@@ -67,16 +67,24 @@ namespace discos_mvc.Controllers
         // GET: DiscosController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            DiscoNegocio discoNegocio = new DiscoNegocio();
+            var disco = discoNegocio.listar().Find(d => d.Id == id);
+            TipoEdicionNegocio tipoEdicionNegocio = new TipoEdicionNegocio();
+            EstiloNegocio estiloNegocio = new EstiloNegocio();
+            ViewBag.Estilos = new SelectList(estiloNegocio.listar(), "Id", "Descripcion", disco.Estilo.Id);
+            ViewBag.TiposEdicion = new SelectList(tipoEdicionNegocio.listar(), "Id", "Descripcion", disco.TipoEdicion.Id);
+            return View(disco);
         }
 
         // POST: DiscosController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(Disco disco)
         {
             try
             {
+                DiscoNegocio discoNegocio = new DiscoNegocio();
+                discoNegocio.modificar(disco);
                 return RedirectToAction(nameof(Index));
             }
             catch
